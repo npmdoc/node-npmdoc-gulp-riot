@@ -1,0 +1,135 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+    >gulp-riot (v1.1.0)</a>
+</h1>
+<h4>gulp plugin for riot</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-riot">module gulp-riot</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-riot.gulp-riot">
+            function <span class="apidocSignatureSpan"></span>gulp-riot
+            <span class="apidocSignatureSpan">(opts)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-riot" id="apidoc.module.gulp-riot">module gulp-riot</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-riot.gulp-riot" id="apidoc.element.gulp-riot.gulp-riot">
+        function <span class="apidocSignatureSpan"></span>gulp-riot
+        <span class="apidocSignatureSpan">(opts)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-riot = function (opts){
+  var transform;
+  opts == null &#x26;&#x26; (opts = {});
+  transform = function(file, encoding, callback){
+    var compiledCode, err, splitedPath;
+    switch (false) {
+    case !file.isNull():
+      return callback(null, file);
+    case !file.isStream():
+      return callback(new gutil.PluginError(&#x27;gulp-riot&#x27;, &#x27;Stream not supported&#x27;));
+    default:
+      if (opts.parsers != null) {
+        Object.keys(opts.parsers).forEach(function(x){
+          return Object.keys(opts.parsers[x]).forEach(function(y){
+            return parsers[x][y] = opts.parsers[x][y];
+          });
+        });
+        delete opts.parsers;
+      }
+      try {
+        compiledCode = compile(file.contents.toString(), opts, file.path);
+      } catch (e$) {
+        err = e$;
+        return callback(new gutil.PluginError(&#x27;gulp-riot&#x27;, file.path + &#x22;: Compiler Error: &#x22; + err));
+      }
+      if (opts.modular) {
+        compiledCode = &#x22;(function(tagger) {\n  if (typeof define === &#x27;function&#x27; &#x26;&#x26; define.amd) {\n    define([&#x27;riot&#x27;], function(
+riot) { tagger(riot); });\n  } else if (typeof module !== &#x27;undefined&#x27; &#x26;&#x26; typeof module.exports !== &#x27;undefined&#x27;) {\n    tagger(require(&#x27;riot&#x27;));\n  } else {\n    tagger(window.riot);\n  }\n})(function(riot) {\n&#x22; + compiledCode + &#x22;\n\n});&#x22;;
+      }
+      file.contents = new Buffer(compiledCode);
+      splitedPath = file.path.split(&#x27;.&#x27;);
+      splitedPath[splitedPath.length - 1] = &#x27;js&#x27;;
+      file.path = splitedPath.join(&#x27;.&#x27;);
+      return callback(null, file);
+    }
+  };
+  return through.obj(transform);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
